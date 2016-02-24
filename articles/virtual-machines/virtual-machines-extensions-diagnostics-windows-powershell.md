@@ -49,11 +49,11 @@ If the diagnostics storage account is in a different subscription from the VM, t
 
 Once the diagnostics extension is enabled on a VM, you can get the current settings by using the [Get-AzureRMVmDiagnosticsExtension](https://msdn.microsoft.com/library/mt603678.aspx) cmdlet.
 
-	Get-AzureRmVMDiagnosticsExtension -ResourceGroupName $vm_resourcegroup -VMName $vm_name
+	Get-AzureRmVMDiagnosticsExtension -ResourceGroupName $vm_resourcegroup -VMName $vm_name -Name "IaasDiagnostics"
 
 The cmdlet returns *PublicSettings*, which contains the XML configuration in a Base64-encoded format. To read the XML, you need to decode it.
 
-	$publicsettings = (Get-AzureRmVMDiagnosticsExtension -ResourceGroupName $vm_resourcegroup -VMName $vm_name).PublicSettings
+	$publicsettings = (Get-AzureRmVMDiagnosticsExtension -ResourceGroupName $vm_resourcegroup -VMName $vm_name -Name "IaasDiagnostics").PublicSettings
 	$encodedconfig = (ConvertFrom-Json -InputObject $publicsettings).xmlCfg
 	$xmlconfig = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($encodedconfig))
 	Write-Host $xmlconfig
